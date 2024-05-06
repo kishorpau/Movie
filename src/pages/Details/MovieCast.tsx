@@ -7,9 +7,13 @@ import {
   CarouselPrevious,
 } from "../../../@/components/ui/carousel";
 import CastDetails from "./CastDetails";
+interface Id {
+  id: string;
+  media: string;
+}
 
-const MovieCast = () => {
-  const { data: credits, loading } = useFetch("/movie/693134/credits");
+const MovieCast = ({ id, media }: Id) => {
+  const { data: credits, loading } = useFetch(`/${media}/${id}/credits`);
 
   if (loading === "loading.." || !credits || !credits.cast) {
     return <div>Loading...</div>;
@@ -23,7 +27,7 @@ const MovieCast = () => {
         opts={{
           align: "center",
         }}
-        className="w-full max-w-xl relative"
+        className="w-full max-w-full relative"
       >
         <CarouselContent>
           {cast.map((castItem) => (

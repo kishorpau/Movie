@@ -5,7 +5,7 @@ interface MovieProps {
 
 const MovieCard = ({ image, title }: MovieProps) => {
   return (
-    <div className="w-[400px] h-[525] ">
+    <div className="w-[400px] h-[525px] ">
       <img
         src={image}
         alt="movie image"

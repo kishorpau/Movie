@@ -6,6 +6,7 @@ interface MovieAboutProps {
   genres: string[] | number; // Ensure genres is an array of strings
   bgImage: string;
   title: string;
+  name: string;
   overview: string;
   tagline: string;
   rating: number;
@@ -20,6 +21,7 @@ const MovieAbout: React.FC<MovieAboutProps> = ({
   overview,
   tagline,
   rating,
+  name,
 }) => {
   const handleTrailer = () => {
     setPlay(!play);
@@ -47,7 +49,7 @@ const MovieAbout: React.FC<MovieAboutProps> = ({
             />
           </div>
           <div className="flex flex-col gap-y-7 left-[20%] top-[20%] relative text-white w-full">
-            <h1>{title}</h1>
+            <h1>{title || name}</h1>
             <p>{tagline}</p>
             <p>{rating}</p>
             {genres.map((genre) => (

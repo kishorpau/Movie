@@ -16,7 +16,7 @@ const CastDetails: React.FC<CastProps> = ({ character, name, image }) => {
   const photo = image ? `${ImageUrl}${image}` : AvatarUrl;
 
   return (
-    <div className="flex flex-col w-[200px] h-[200px]">
+    <div className="flex flex-col w-[200px] h-[230px]">
       <div className="rounded-full">
         <img
           src={photo}

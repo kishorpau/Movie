@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { fetchDataFromApi } from "../../@/lib/api";
 
 interface Movie {
+  results: Movie | null;
+
   genres: string[];
   backdrop_url: string;
   title: string;

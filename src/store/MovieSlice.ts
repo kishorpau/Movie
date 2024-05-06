@@ -1,22 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const MovieSlice = createSlice({
-  name: "Home",
-
+  name: "home",
   initialState: {
     url: {},
     genres: {},
+    searchResults: { tv: null, movie: null },
   },
   reducers: {
-    getApiConfiguration: (state, action) => {
+    setApiConfiguration: (state, action) => {
       state.url = action.payload;
     },
-    getGenres: (state, action) => {
+    setGenres: (state, action) => {
       state.genres = action.payload;
+    },
+    setSearchResults: (state, action) => {
+      state.searchResults = action.payload;
     },
   },
 });
 
-export const { getApiConfiguration, getGenres } = MovieSlice.actions;
+export const { setApiConfiguration, setGenres, setSearchResults } =
+  MovieSlice.actions;
 
 export default MovieSlice.reducer;

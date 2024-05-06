@@ -7,9 +7,13 @@ import {
   CarouselPrevious,
 } from "../../../@/components/ui/carousel";
 import MovieCard from "../../main/MovieCard";
+interface Id {
+  id: string;
+  media: string;
+}
 
-const Recommendations = () => {
-  const { data, loading } = useFetch("/movie/693134/recommendations");
+const Recommendations = ({ id, media }: Id) => {
+  const { data, loading } = useFetch(`/${media}/${id}/recommendations`);
 
   const ImageUrl = "https://image.tmdb.org/t/p/original";
   const actualdata = data?.results?.slice(0, 20) || []; // Initialize with empty array if data is not available
@@ -20,7 +24,7 @@ const Recommendations = () => {
         opts={{
           align: "center",
         }}
-        className="w-full max-w-xl relative"
+        className="w-full max-w-full relative"
       >
         <CarouselContent>
           {actualdata.map((movie) => (
