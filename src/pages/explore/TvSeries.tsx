@@ -1,24 +1,69 @@
-import { useState, useEffect } from "react";
-import useFetch from "../../hooks/useFetch";
+import { useState, useEffect, useMemo } from "react";
 import TvCard from "./TvCard";
+import { fetchDataFromApi } from "../../../@/lib/api";
+import GenreComponent from "./GenreComponent";
+import { SortBy } from "./SortBy";
 
 const TvSeries = () => {
+  const [genre, setGenre] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
-  const [allMovies, setAllMovies] = useState([]);
-  const { data, loading, error } = useFetch(`/tv/popular?page=${pageNumber}`);
-  console.log(data);
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [sortBy, setSortBy] = useState("");
 
   useEffect(() => {
-    if (pageNumber === 1) {
-      setAllMovies([]);
-    }
-  }, [pageNumber]);
+    const fetchGenreData = async () => {
+      try {
+        const genreData = await fetchDataFromApi("/genre/tv/list", {});
+        setGenre(genreData.genres);
+      } catch (error) {
+        console.error("Error fetching genre data:", error);
+        setError(error);
+      }
+    };
+
+    fetchGenreData();
+  }, []);
 
   useEffect(() => {
-    if (data && data.results) {
-      setAllMovies((prevMovies) => [...prevMovies, ...data.results]);
+    const fetchMovies = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchDataFromApi(
+          `/discover/tv?sort_by=${sortBy}&page=${pageNumber}&with_genres=${selectedGenres.join(
+            ","
+          )}`,
+          {}
+        );
+        if (pageNumber === 1) {
+          setMovies(data.results);
+        } else {
+          setMovies((prevMovies) => [...prevMovies, ...data.results]);
+        }
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovies();
+  }, [pageNumber, selectedGenres, sortBy]);
+
+  const handleGenreClick = (id) => {
+    if (selectedGenres.includes(id)) {
+      setSelectedGenres(selectedGenres.filter((genreId) => genreId !== id));
+    } else {
+      setSelectedGenres([...selectedGenres, id]);
     }
-  }, [data]);
+  };
+
+  const handleSortByChange = (value) => {
+    setSortBy(value);
+  };
 
   const fetchMoreData = () => {
     setPageNumber(pageNumber + 1);
@@ -28,26 +73,40 @@ const TvSeries = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  if (error) {
-    console.error("Error fetching movies:", error);
-    return <div>Error fetching movies. Please try again later.</div>;
-  }
+  const sortedMovies = useMemo(() => {
+    return [...movies].sort((a, b) => {
+      // Your sorting logic here
+    });
+  }, [movies]);
 
   return (
     <div className="p-10">
+      <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-9 gap-x-2 gap-y-4">
+        {genre.map((genre) => (
+          <GenreComponent
+            key={genre.id}
+            name={genre.name}
+            onClick={() => handleGenreClick(genre.id)}
+          />
+        ))}
+      </div>
+      <div>
+        <SortBy onChange={handleSortByChange} />
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-7">
-        {allMovies.map((movie) => (
+        {sortedMovies.map((movie, index) => (
           <TvCard
-            key={movie?.id}
-            id={movie?.id}
+            id={movie.id}
+            key={`${movie.title}-${index}`}
             title={movie.name}
             image={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-            overview={movie.overview}
             media="tv"
+            overview={""}
+            name={""}
           />
         ))}
         {loading && <div className="col-span-full text-center">Loading...</div>}
-        {!loading && data && data.page < data.total_pages && (
+        {!loading && movies.length > 0 && (
           <button
             onClick={fetchMoreData}
             className="col-span-full text-center py-2 px-4 bg-blue-500 text-white rounded-md"

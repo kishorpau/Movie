@@ -1,7 +1,7 @@
 // MovieAbout.tsx
 import { useState } from "react";
 import EmbedVideo from "./EmbedVideo";
-
+import useFetch from "../../hooks/useFetch";
 interface MovieAboutProps {
   genres: string[] | number; // Ensure genres is an array of strings
   bgImage: string;
@@ -11,6 +11,8 @@ interface MovieAboutProps {
   tagline: string;
   rating: number;
   posterImage: string;
+  id: number;
+  media: string;
 }
 
 const MovieAbout: React.FC<MovieAboutProps> = ({
@@ -22,12 +24,15 @@ const MovieAbout: React.FC<MovieAboutProps> = ({
   tagline,
   rating,
   name,
+  id,
+  media,
 }) => {
   const handleTrailer = () => {
     setPlay(!play);
   };
 
   const [play, setPlay] = useState(false);
+
   return (
     <div>
       <div className="w-full h-full">
@@ -61,7 +66,7 @@ const MovieAbout: React.FC<MovieAboutProps> = ({
               </div>
             ))}
             <button onClick={handleTrailer}>play trailer</button>
-            {play && <EmbedVideo />}
+            {play && <EmbedVideo id={id} media={media} />}
             <p className="w-[40%]">{overview}</p>
           </div>
         </div>

@@ -1,13 +1,17 @@
-import { useState, useEffect } from "react";
-import useFetch from "../../hooks/useFetch";
+import React, { useState, useEffect, useMemo } from "react";
 import TvCard from "./TvCard";
 import { fetchDataFromApi } from "../../../@/lib/api";
 import GenreComponent from "./GenreComponent";
+import { SortBy } from "./SortBy";
 
 const Movies = () => {
   const [genre, setGenre] = useState([]);
-  const [filterData, setFilterData] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [sortBy, setSortBy] = useState("");
 
   useEffect(() => {
     const fetchGenreData = async () => {
@@ -16,6 +20,7 @@ const Movies = () => {
         setGenre(genreData.genres);
       } catch (error) {
         console.error("Error fetching genre data:", error);
+        setError(error);
       }
     };
 
@@ -23,42 +28,42 @@ const Movies = () => {
   }, []);
 
   useEffect(() => {
-    const fetchFilteredMovies = async () => {
+    const fetchMovies = async () => {
+      setLoading(true);
       try {
-        const data = await fetchDataFromApi("/discover/movie", {
-          include_adult: "false",
-          include_video: "false",
-          language: "en-US",
-          page: "1",
-          sort_by: "popularity.desc",
-          with_genres: selectedGenres.join(","), // Join selected genres with comma separator
-        });
-        setFilterData(data);
+        const data = await fetchDataFromApi(
+          `/discover/movie?sort_by=${sortBy}&page=${pageNumber}&with_genres=${selectedGenres.join(
+            ","
+          )}`,
+          {}
+        );
+        if (pageNumber === 1) {
+          setMovies(data.results);
+        } else {
+          setMovies((prevMovies) => [...prevMovies, ...data.results]);
+        }
       } catch (error) {
-        console.error("Error fetching filtered movies:", error);
+        console.error("Error fetching movies:", error);
+        setError(error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchFilteredMovies();
-  }, [selectedGenres]);
+    fetchMovies();
+  }, [pageNumber, selectedGenres, sortBy]);
 
-  const [pageNumber, setPageNumber] = useState(1);
-  const [allMovies, setAllMovies] = useState([]);
-  const { data, loading, error } = useFetch(
-    `/discover/movie?page=${pageNumber}`
-  );
-
-  useEffect(() => {
-    if (pageNumber === 1) {
-      setAllMovies([]);
+  const handleGenreClick = (id) => {
+    if (selectedGenres.includes(id)) {
+      setSelectedGenres(selectedGenres.filter((genreId) => genreId !== id));
+    } else {
+      setSelectedGenres([...selectedGenres, id]);
     }
-  }, [pageNumber]);
+  };
 
-  useEffect(() => {
-    if (data && data.results) {
-      setAllMovies((prevMovies) => [...prevMovies, ...data.results]);
-    }
-  }, [data]);
+  const handleSortByChange = (value) => {
+    setSortBy(value);
+  };
 
   const fetchMoreData = () => {
     setPageNumber(pageNumber + 1);
@@ -68,67 +73,40 @@ const Movies = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleGenreClick = (id) => {
-    // Toggle the presence of genre ID in the selectedGenres array
-    if (selectedGenres.includes(id)) {
-      setSelectedGenres(selectedGenres.filter((genreId) => genreId !== id));
-    } else {
-      setSelectedGenres([...selectedGenres, id]);
-    }
-  };
-
-  if (error) {
-    console.error("Error fetching movies:", error);
-    return <div>Error fetching movies. Please try again later.</div>;
-  }
+  const sortedMovies = useMemo(() => {
+    return [...movies].sort((a, b) => {
+      // Your sorting logic here
+    });
+  }, [movies]);
 
   return (
     <div className="p-10">
       <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-9 gap-x-2 gap-y-4">
-        {genre.map((genre) => {
-          return (
-            <GenreComponent
-              key={genre?.id}
-              name={genre?.name}
-              onClick={() => handleGenreClick(genre.id)}
-            />
-          );
-        })}
+        {genre.map((genre) => (
+          <GenreComponent
+            key={genre.id}
+            name={genre.name}
+            onClick={() => handleGenreClick(genre.id)}
+          />
+        ))}
       </div>
-      <div>Sort by</div>
+      <div>
+        <SortBy onChange={handleSortByChange} />
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-7">
-        {(filterData.results && filterData.results.length > 0) ||
-        (selectedGenres.length === 0 && allMovies.length > 0) ? (
-          selectedGenres.length === 0 ? (
-            allMovies.map((movie) => (
-              <TvCard
-                key={movie?.id}
-                id={movie?.id}
-                title={movie.name}
-                image={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-                media="movie"
-              />
-            ))
-          ) : (
-            filterData.results.map((movie, index) => (
-              <TvCard
-                id={movie?.id}
-                key={`${movie.title}-${index}`}
-                title={movie.title}
-                image={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-                media="movie"
-                overview={""}
-                name={""}
-              />
-            ))
-          )
-        ) : (
-          <div className="col-span-full text-center">
-            No movies found for the selected genre(s).
-          </div>
-        )}
+        {sortedMovies.map((movie, index) => (
+          <TvCard
+            id={movie.id}
+            key={`${movie.title}-${index}`}
+            title={movie.title}
+            image={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+            media="movie"
+            overview={""}
+            name={""}
+          />
+        ))}
         {loading && <div className="col-span-full text-center">Loading...</div>}
-        {!loading && data && data.page < data.total_pages && (
+        {!loading && movies.length > 0 && (
           <button
             onClick={fetchMoreData}
             className="col-span-full text-center py-2 px-4 bg-blue-500 text-white rounded-md"

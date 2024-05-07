@@ -28,7 +28,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full h-[8vh] bg-black flex p-5 text-white items-center justify-between fixed">
+    // <div className="w-full h-[8vh] bg-black flex p-5 text-white items-center justify-between fixed">
+    <div>
       <Logo />
       <div className=" flex space-x-14">
         <div>

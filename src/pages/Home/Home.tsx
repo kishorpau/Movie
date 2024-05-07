@@ -1,5 +1,6 @@
 import Navbar from "./Navbar";
 import useFetch from "../../hooks/useFetch";
+
 export const Home = () => {
   const { data } = useFetch("/movie/upcoming");
   const ImageUrl = "https://image.tmdb.org/t/p/original";
