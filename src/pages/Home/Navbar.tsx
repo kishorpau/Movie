@@ -28,21 +28,22 @@ const Navbar = () => {
   };
 
   return (
-    // <div className="w-full h-[8vh] bg-black flex p-5 text-white items-center justify-between fixed">
-    <div>
-      <Logo />
-      <div className=" flex space-x-14">
-        <div>
-          <Button onClick={handleMovie}>Movies</Button>
-        </div>
-        <div>
-          <Button onClick={handleTv}>Tv Shows</Button>
-        </div>
-        <div>
-          <Button onClick={handleSearch}>
-            <Search />
-          </Button>
-          {searchBar && <SearchBar />}
+    <div className="w-full h-[8vh] bg-black flex p-5 text-white items-center justify-between fixed">
+      <div>
+        <Logo />
+        <div className=" flex space-x-14">
+          <div>
+            <Button onClick={handleMovie}>Movies</Button>
+          </div>
+          <div>
+            <Button onClick={handleTv}>Tv Shows</Button>
+          </div>
+          <div>
+            <Button onClick={handleSearch}>
+              <Search />
+            </Button>
+            {searchBar && <SearchBar />}
+          </div>
         </div>
       </div>
     </div>
