@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Movies from "./pages/explore/Movies";
 import Details from "./pages/Details/Details";
 import TvSeries from "./pages/explore/TvSeries";
+import SearchResultPage from "./pages/SearchResultPage";
 const App = () => {
   const url = useSelector((state: RootState) => state.home.url);
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/explore/Movies" element={<Movies />} />
         <Route path="/explore/Tv" element={<TvSeries />} />
+        <Route path="/search-results" element={<SearchResultPage />} />
         <Route path="" />
       </Routes>
     </BrowserRouter>

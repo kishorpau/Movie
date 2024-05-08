@@ -33,7 +33,7 @@ const SearchResultsComponent = () => {
   }
 
   return (
-    <div className="w-full max-h-[50vh] overflow-y-scroll bg-white absolute left-0 top-14 z-10 border border-gray-200 rounded-md shadow-lg">
+    <div className=" absolute w-full max-h-[100vh] overflow-y-scroll   left-0 top-14 z-10 border border-gray-200 rounded-md shadow-lg">
       <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {/* Render combined results */}
         {combinedResults.map((item) => (

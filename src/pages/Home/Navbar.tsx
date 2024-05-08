@@ -1,52 +1,60 @@
-import { Search } from "lucide-react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { setSearchResults } from "../../store/MovieSlice";
 import { Button } from "../../../@/components/ui/button";
-import Logo from "./Logo";
-import { Navigate } from "react-router-dom";
-import { useState } from "react"; // Import useState hook
+import { Menu, Search } from "lucide-react";
+import Logo from "./Logo"; // Import the Logo component
 import SearchBar from "./SearchBar";
 
 const Navbar = () => {
-  const [navigateToMovies, setNavigateToMovies] = useState(false); // State to control navigation
-  const [navigateToTv, setNavigateToTv] = useState(false); // State to control navigation
-  const [searchBar, SetSearchBar] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [searchBarVisible, setSearchBarVisible] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // useNavigate hook
+
+  const toggleSearchBar = () => {
+    setSearchBarVisible(!searchBarVisible);
+  };
 
   const handleMovie = () => {
-    setNavigateToMovies(true); // Set state to true to trigger navigation
-  };
-  const handleTv = () => {
-    setNavigateToTv(true);
+    dispatch(setSearchResults(null));
+    navigate("/explore/movies"); // Use navigate instead of history.push
   };
 
-  if (navigateToMovies) {
-    return <Navigate to="/explore/movies" />;
-  }
-  if (navigateToTv) {
-    return <Navigate to="/explore/Tv" />;
-  }
-  const handleSearch = () => {
-    SetSearchBar(!searchBar);
+  const handleTv = () => {
+    dispatch(setSearchResults(null));
+    navigate("/explore/Tv"); // Use navigate instead of history.push
+  };
+
+  const toggleSheet = () => {
+    setIsSheetOpen(!isSheetOpen);
   };
 
   return (
-    <div className="w-full h-[8vh] bg-black flex p-5 text-white items-center justify-between fixed">
+    <nav className="w-full h-[8vh] bg-black flex p-5 text-white items-center justify-between fixed top-0">
       <div>
-        <Logo />
-        <div className=" flex space-x-14">
-          <div>
-            <Button onClick={handleMovie}>Movies</Button>
-          </div>
-          <div>
-            <Button onClick={handleTv}>Tv Shows</Button>
-          </div>
-          <div>
-            <Button onClick={handleSearch}>
-              <Search />
-            </Button>
-            {searchBar && <SearchBar />}
-          </div>
+        <img src="../../download.png" alt="image" height={80} width={100} />
+      </div>
+      <div className="flex space-x-14">
+        <div>
+          <Button onClick={handleMovie}>Movies</Button>
+        </div>
+        <div>
+          <Button onClick={handleTv}>Tv Shows</Button>
+        </div>
+        <div>
+          <Button onClick={toggleSearchBar}>
+            <Search />
+          </Button>
+          {searchBarVisible && <SearchBar onClose={toggleSearchBar} />}
         </div>
       </div>
-    </div>
+      <button className="text-white rounded shadow-md" onClick={toggleSheet}>
+        <Menu />
+      </button>
+      <Logo isOpen={isSheetOpen} onClose={toggleSheet} />
+    </nav>
   );
 };
 

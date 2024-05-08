@@ -3,6 +3,7 @@ import TvCard from "./TvCard";
 import { fetchDataFromApi } from "../../../@/lib/api";
 import GenreComponent from "./GenreComponent";
 import { SortBy } from "./SortBy";
+import Navbar from "../Home/Navbar";
 
 const Movies = () => {
   const [genre, setGenre] = useState([]);
@@ -80,48 +81,53 @@ const Movies = () => {
   }, [movies]);
 
   return (
-    <div className="p-10">
-      <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-9 gap-x-2 gap-y-4">
-        {genre.map((genre) => (
-          <GenreComponent
-            key={genre.id}
-            name={genre.name}
-            onClick={() => handleGenreClick(genre.id)}
-          />
-        ))}
-      </div>
-      <div>
-        <SortBy onChange={handleSortByChange} />
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-7">
-        {sortedMovies.map((movie, index) => (
-          <TvCard
-            id={movie.id}
-            key={`${movie.title}-${index}`}
-            title={movie.title}
-            image={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-            media="movie"
-            overview={""}
-            name={""}
-          />
-        ))}
-        {loading && <div className="col-span-full text-center">Loading...</div>}
-        {!loading && movies.length > 0 && (
+    <>
+      <Navbar />
+      <div className="p-10">
+        <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-9 gap-x-2 gap-y-4">
+          {genre.map((genre) => (
+            <GenreComponent
+              key={genre.id}
+              name={genre.name}
+              onClick={() => handleGenreClick(genre.id)}
+            />
+          ))}
+        </div>
+        <div>
+          <SortBy onChange={handleSortByChange} />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-7">
+          {sortedMovies.map((movie, index) => (
+            <TvCard
+              id={movie.id}
+              key={`${movie.title}-${index}`}
+              title={movie.title}
+              image={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+              media="movie"
+              overview={""}
+              name={""}
+            />
+          ))}
+          {loading && (
+            <div className="col-span-full text-center">Loading...</div>
+          )}
+          {!loading && movies.length > 0 && (
+            <button
+              onClick={fetchMoreData}
+              className="col-span-full text-center py-2 px-4 bg-blue-500 text-white rounded-md"
+            >
+              Load More
+            </button>
+          )}
           <button
-            onClick={fetchMoreData}
-            className="col-span-full text-center py-2 px-4 bg-blue-500 text-white rounded-md"
+            onClick={scrollToTop}
+            className="fixed bottom-10 right-10 bg-blue-500 text-white p-3 rounded-full shadow-lg"
           >
-            Load More
+            Scroll to Top
           </button>
-        )}
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-10 right-10 bg-blue-500 text-white p-3 rounded-full shadow-lg"
-        >
-          Scroll to Top
-        </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
