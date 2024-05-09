@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import TvCard from "./TvCard";
 import { fetchDataFromApi } from "../../../@/lib/api";
 import GenreComponent from "./GenreComponent";
@@ -41,10 +41,12 @@ const Movies = () => {
         if (pageNumber === 1) {
           setMovies(data.results);
         } else {
+          //@ts-ignore
           setMovies((prevMovies) => [...prevMovies, ...data.results]);
         }
       } catch (error) {
         console.error("Error fetching movies:", error);
+        //@ts-ignore
         setError(error);
       } finally {
         setLoading(false);
@@ -53,15 +55,19 @@ const Movies = () => {
 
     fetchMovies();
   }, [pageNumber, selectedGenres, sortBy]);
+  //@ts-ignore
 
   const handleGenreClick = (id) => {
+    //@ts-ignore
     if (selectedGenres.includes(id)) {
       setSelectedGenres(selectedGenres.filter((genreId) => genreId !== id));
     } else {
+      //@ts-ignore
+
       setSelectedGenres([...selectedGenres, id]);
     }
   };
-
+  //@ts-ignore
   const handleSortByChange = (value) => {
     setSortBy(value);
   };
@@ -75,6 +81,7 @@ const Movies = () => {
   };
 
   const sortedMovies = useMemo(() => {
+    //@ts-ignore
     return [...movies].sort((a, b) => {
       // Your sorting logic here
     });
@@ -87,8 +94,11 @@ const Movies = () => {
         <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-9 gap-x-2 gap-y-4">
           {genre.map((genre) => (
             <GenreComponent
+              //@ts-ignore
               key={genre.id}
+              //@ts-ignore
               name={genre.name}
+              //@ts-ignore
               onClick={() => handleGenreClick(genre.id)}
             />
           ))}
@@ -99,9 +109,14 @@ const Movies = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-7">
           {sortedMovies.map((movie, index) => (
             <TvCard
+              //@ts-ignore
               id={movie.id}
+              //@ts-ignore
+
               key={`${movie.title}-${index}`}
+              //@ts-ignore
               title={movie.title}
+              //@ts-ignore
               image={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
               media="movie"
               overview={""}

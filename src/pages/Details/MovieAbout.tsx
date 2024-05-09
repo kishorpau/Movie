@@ -1,7 +1,7 @@
 // MovieAbout.tsx
 import { useState } from "react";
 import EmbedVideo from "./EmbedVideo";
-import useFetch from "../../hooks/useFetch";
+
 interface MovieAboutProps {
   genres: string[] | number; // Ensure genres is an array of strings
   bgImage: string;
@@ -57,6 +57,7 @@ const MovieAbout: React.FC<MovieAboutProps> = ({
             <h1>{title || name}</h1>
             <p>{tagline}</p>
             <p>{rating}</p>
+            //@ts-ignore
             {genres.map((genre) => (
               <div
                 key={genre.id}

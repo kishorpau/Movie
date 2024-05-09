@@ -3,11 +3,10 @@ import { useDispatch } from "react-redux";
 import { fetchDataFromApi } from "../../../@/lib/api";
 import { setSearchResults } from "../../store/MovieSlice";
 
-import { XIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 //@ts-ignore
 
-const SearchBar = ({ onClose }) => {
+const HomeSearch = ({ onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // useNavigate hook
   const [term, setTerm] = useState("");
@@ -39,29 +38,35 @@ const SearchBar = ({ onClose }) => {
   };
 
   return (
-    <div className="absolute top-[100%] right-[20%] w-[50%]">
+    <div className="w-[60%] items-center mx-auto">
       <form
         onSubmit={submitHandler}
         className="flex items-center justify-center"
       >
-        <XIcon onClick={onClose} />
         <input
           type="text"
           value={term}
           placeholder="Search Movies and Shows"
           onChange={(e) => setTerm(e.target.value)}
-          className="w-full px-4 py-2 rounded-lg border text-black border-gray-300 focus:outline-none focus:border-blue-500"
+          className="w-full h-[55px] px-4 py-2  border  text-xl text-blue-200 bg-black/85 focus:outline-none focus:border-rose-500 "
+          style={{
+            borderTopLeftRadius: "20px",
+            borderBottomLeftRadius: "20px",
+          }}
         />
         <button
-          className="ml-2 px-4 py-2 rounded-lg bg-gray-800  text-white hover:bg-black transition duration-300"
+          className="px-6 py-2 h-[55px]  bg-gradient-to-r from-rose-600 to-neutral-900 text-blue-200 text-xl transition duration-300"
           type="submit"
-          style={{ borderRadius: "5px" }}
+          style={{
+            borderTopRightRadius: "20px",
+            borderBottomRightRadius: "20px",
+          }}
         >
-          Go
+          Search
         </button>
       </form>
     </div>
   );
 };
 
-export default SearchBar;
+export default HomeSearch;

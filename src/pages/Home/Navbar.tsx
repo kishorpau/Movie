@@ -32,7 +32,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full h-[8vh] bg-black flex p-5 text-white items-center justify-between fixed top-0">
+    <nav className="w-full h-[8vh] bg-black/30 flex p-5 text-white items-center justify-between sticky top-0 z-10">
       <div>
         <img src="../../download.png" alt="image" height={80} width={100} />
       </div>

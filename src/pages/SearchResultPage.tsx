@@ -7,11 +7,11 @@ const SearchResultPage = () => {
     navigate("/");
   };
   return (
-    <div>
+    <div className="bg-black-30 w-full">
+      <SearchResultsComponent />
       <button onClick={handleClick}>
         <ArrowLeft />
       </button>
-      <SearchResultsComponent />
     </div>
   );
 };

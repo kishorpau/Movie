@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import MovieAbout from "./MovieAbout";
 import MovieCast from "./MovieCast";
@@ -21,14 +20,16 @@ const Details: React.FC = () => {
 
   const movieDetails = {
     title: data?.title || "",
+
     name: data?.name || "",
     overview: data?.overview || "",
     bgImage: `${ImageUrl}${data?.backdrop_path}` || "",
     posterImage: `${ImageUrl}${data?.poster_path}` || "",
     genres: data?.genres || [],
     tagline: data?.tagline || "",
-    rating: data?.vote_Average,
-    id: data?.id,
+    rating: data?.vote_Average || "",
+
+    id: data?.id || "",
   };
 
   return (
@@ -37,9 +38,9 @@ const Details: React.FC = () => {
         {...movieDetails}
         media={movieDetails.title.length > 0 ? "movie" : "tv"}
       />
-      <MovieCast id={id} media={media} />
-      <SimilarMovie id={id} media={media} />
-      <Recommendations id={id} media={media} />
+      <MovieCast id={id} media={media || ""} />
+      <SimilarMovie id={id} media={media || ""} />
+      <Recommendations id={id} media={media || ""} />
     </div>
   );
 };

@@ -8,7 +8,9 @@ interface EmbedProps {
 
 const EmbedVideo: React.FC<EmbedProps> = ({ id, media }) => {
   const { data, loading } = useFetch(`/${media}/${id}/videos`);
+  //@ts-ignore
   const officialTrailer = data?.results?.find(
+    //@ts-ignore
     (result) => result.name === "Official Trailer"
   );
 

@@ -35,7 +35,7 @@ const useFetch = (url: string): ApiResponse => {
     setLoading("loading..");
     setData(null);
     setError("");
-    fetchDataFromApi(url, "")
+    fetchDataFromApi(url, {})
       .then((res: Movie) => {
         setLoading(false);
         setData(res);

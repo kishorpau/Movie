@@ -13,9 +13,10 @@ interface Id {
 }
 
 const SimilarMovie = ({ id, media }: Id) => {
-  const { data, loading } = useFetch(`/${media}/${id}/similar`);
+  const { data } = useFetch(`/${media}/${id}/similar`);
 
   const ImageUrl = "https://image.tmdb.org/t/p/original";
+  //@ts-ignore
   const actualdata = data?.results?.slice(0, 20) || []; // Initialize with empty array if data is not available
 
   return (
