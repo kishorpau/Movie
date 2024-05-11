@@ -1,4 +1,6 @@
 import useFetch from "../../hooks/useFetch";
+import { Loader } from "lucide-react";
+import CastDetails from "./CastDetails";
 import {
   Carousel,
   CarouselContent,
@@ -6,7 +8,15 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../../../@/components/ui/carousel";
-import CastDetails from "./CastDetails";
+
+interface CastItem {
+  id: number;
+  character: string;
+  cast_id: number;
+  name: string;
+  profile_path: string;
+}
+
 interface Id {
   id: string;
   media: string;
@@ -14,21 +24,24 @@ interface Id {
 
 const MovieCast = ({ id, media }: Id) => {
   const { data: credits, loading } = useFetch(`/${media}/${id}/credits`);
-
+  //@ts-expect-error its error
   if (loading === "loading.." || !credits || !credits.cast) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Loader className="animate-spin" />
+      </div>
+    );
   }
-
-  const cast = credits.cast;
+  //@ts-expect-error its error
+  const cast: CastItem[] = credits.cast || [];
 
   return (
     <>
       <Carousel
-        opts={{
-          align: "center",
-        }}
+        opts={{ align: "center" }}
         className="w-full max-w-full relative"
       >
+        <h1 className="text-2xl font-semibold pb-6 pl-4 ">Cast</h1>
         <CarouselContent>
           {cast.map((castItem) => (
             <CarouselItem
@@ -37,7 +50,7 @@ const MovieCast = ({ id, media }: Id) => {
             >
               <CastDetails
                 character={castItem.character || ""}
-                id={castItem.cast_id || ""}
+                id={Number(castItem.cast_id) || 0}
                 name={castItem.name || ""}
                 image={castItem.profile_path || ""}
               />

@@ -33,7 +33,7 @@ export const Home = () => {
               </p>
               <br />
             </div>
-            <HomeSearch onClose={() => {}} />
+            <HomeSearch />
           </div>
         </div>
         <div>

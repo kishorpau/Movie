@@ -3,6 +3,8 @@ import MovieAbout from "./MovieAbout";
 import MovieCast from "./MovieCast";
 import SimilarMovie from "./SimilarMovie";
 import Recommendations from "./Recommendations";
+import EmbedVideo from "./EmbedVideo";
+import { Loader } from "lucide-react";
 import { useParams } from "react-router-dom";
 
 const Details: React.FC = () => {
@@ -15,32 +17,50 @@ const Details: React.FC = () => {
     return <div>Error: Invalid ID</div>;
   }
 
-  if (loading === "loading..") return <div>Loading...</div>;
+  if (loading === "loading..")
+    return (
+      <div>
+        <Loader className="animate-spin" />
+      </div>
+    );
   if (error) return <div>Error: {error}</div>;
 
+  if (!data) {
+    return <div>Error: No data available</div>;
+  }
+
   const movieDetails = {
-    title: data?.title || "",
-
-    name: data?.name || "",
-    overview: data?.overview || "",
-    bgImage: `${ImageUrl}${data?.backdrop_path}` || "",
-    posterImage: `${ImageUrl}${data?.poster_path}` || "",
-    genres: data?.genres || [],
-    tagline: data?.tagline || "",
-    rating: data?.vote_Average || "",
-
-    id: data?.id || "",
+    title: (data as { title?: string }).title || "",
+    name: (data as { name?: string }).name || "",
+    overview: (data as { overview?: string }).overview || "",
+    //@ts-expect-error i can't put type assertion here
+    bgImage: data?.backdrop_path
+      ? `${ImageUrl}${(data as { backdrop_path?: string }).backdrop_path}`
+      : "../../poster.jpg",
+    //@ts-expect-error i can't put type assertion here
+    posterImage: data?.poster_path
+      ? `${ImageUrl}${(data as { poster_path?: string }).poster_path}`
+      : "../../Designer.jpeg",
+    genres: (data as { genres?: { name: string }[] }).genres || [],
+    tagline: (data as { tagline?: string }).tagline || "",
+    rating: (data as { vote_average?: number }).vote_average || "",
+    status: (data as { status?: string }).status || "",
+    id: String((data as { id?: number }).id || ""),
   };
 
   return (
-    <div className="flex flex-col gap-y-10">
+    <div className="flex flex-col">
       <MovieAbout
         {...movieDetails}
         media={movieDetails.title.length > 0 ? "movie" : "tv"}
       />
-      <MovieCast id={id} media={media || ""} />
-      <SimilarMovie id={id} media={media || ""} />
-      <Recommendations id={id} media={media || ""} />
+      <div className="bg-rose-50">
+        <EmbedVideo id={id} media={media || ""} trailer="video" />
+
+        <MovieCast id={id} media={media || ""} />
+        <SimilarMovie id={id} media={media || ""} />
+        <Recommendations id={id} media={media || ""} />
+      </div>
     </div>
   );
 };

@@ -15,12 +15,12 @@ const GenreComponent = ({ name, onClick }: GenreProps) => {
 
   return (
     <div
-      className={`h-[20px] cursor-pointer ${
-        clicked ? "bg-red-500 text-white" : "bg-black text-neutral-100"
+      className={`cursor-pointer  px-3 py-1 rounded ${
+        clicked ? "bg-rose-600" : "bg-gray-600 hover:bg-gray-700"
       }`}
-      onClick={handleClick} // Call the handleClick function when clicked
+      onClick={handleClick}
     >
-      <div>{name}</div>
+      {name}
     </div>
   );
 };

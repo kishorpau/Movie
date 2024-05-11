@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import { setSearchResults } from "../../store/MovieSlice";
 import { Button } from "../../../@/components/ui/button";
 import { Menu, Search } from "lucide-react";
@@ -34,17 +34,32 @@ const Navbar = () => {
   return (
     <nav className="w-full h-[8vh] bg-black/30 flex p-5 text-white items-center justify-between sticky top-0 z-10">
       <div>
-        <img src="../../download.png" alt="image" height={80} width={100} />
+        <Link to="/">
+          <img src="../../file.png" alt="image" height={60} width={70} />
+        </Link>
       </div>
       <div className="flex space-x-14">
         <div>
-          <Button onClick={handleMovie}>Movies</Button>
+          <Button
+            onClick={handleMovie}
+            className="text-xl font-sans hover:text-rose-600"
+          >
+            Movies
+          </Button>
         </div>
         <div>
-          <Button onClick={handleTv}>Tv Shows</Button>
+          <Button
+            onClick={handleTv}
+            className="text-xl font-sans hover:text-rose-600"
+          >
+            Tv Shows
+          </Button>
         </div>
         <div>
-          <Button onClick={toggleSearchBar}>
+          <Button
+            onClick={toggleSearchBar}
+            className="text-xl font-sans hover:text-rose-600"
+          >
             <Search />
           </Button>
           {searchBarVisible && <SearchBar onClose={toggleSearchBar} />}

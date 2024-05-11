@@ -8,6 +8,7 @@ import {
   CarouselPrevious,
 } from "../../../../@/components/ui/carousel";
 import MovieCard from "../../../main/MovieCard";
+import { Loader } from "lucide-react";
 
 const Trending = () => {
   const [endpoint, setEndpoint] = useState("week"); // State to track endpoint
@@ -17,9 +18,12 @@ const Trending = () => {
   const actualdata = data?.results?.slice(0, 20) || [];
 
   // Function to handle endpoint change
-  const handleEndpointChange = (newEndpoint) => {
+  const handleEndpointChange = (newEndpoint: string) => {
     setEndpoint(newEndpoint);
   };
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -28,18 +32,27 @@ const Trending = () => {
           {/* Button to switch to 'day' endpoint */}
           <button
             onClick={() => handleEndpointChange("day")}
-            className={`${
-              endpoint === "day" ? "bg-blue-500" : "bg-gray-300"
-            } text-white px-4 py-2 rounded-md`}
+            style={{
+              backgroundColor: endpoint === "day" ? "#e11d48" : "gray",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "10px",
+              transition: "all 0.5s ease-in-out",
+              transform: endpoint === "movie" ? "scale(1.1)" : "scale(1)",
+            }}
           >
             Day
           </button>
-          {/* Button to switch to 'week' endpoint */}
           <button
             onClick={() => handleEndpointChange("week")}
-            className={`${
-              endpoint === "week" ? "bg-blue-500" : "bg-gray-300"
-            } text-white px-4 py-2 rounded-md`}
+            style={{
+              backgroundColor: endpoint === "week" ? "#e11d48" : "gray",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "10px",
+              transition: "all 0.5s ease-in-out",
+              transform: endpoint === "week" ? "scale(1.1)" : "scale(1)",
+            }}
           >
             Week
           </button>
@@ -49,6 +62,7 @@ const Trending = () => {
           opts={{ align: "center" }}
           className="w-full max-w-full relative"
         >
+          <h1 className="text-2xl font-semibold pb-6 pl-4 ">Trending</h1>
           <CarouselContent>
             {actualdata.map((movie) => (
               <CarouselItem
@@ -58,13 +72,16 @@ const Trending = () => {
                 <MovieCard
                   image={`${ImageUrl}${movie.poster_path || ""}`}
                   title={movie.title || ""}
+                  id={movie.id}
+                  media={movie.title ? "movie" : "tv"}
                 />
               </CarouselItem>
             ))}
           </CarouselContent>
 
-          <CarouselPrevious className="relative top-1/2 transform -translate-y-1/2 left-0" />
-          <CarouselNext className="relative top-1/2 transform -translate-y-1/2 right-0" />
+          <CarouselPrevious className="absolute top-1/2 transform -translate-y-1/2 left-0" />
+          {/* CarouselNext button positioned on the far right */}
+          <CarouselNext className="absolute top-1/2 transform -translate-y-1/2 right-0" />
         </Carousel>
       </div>
     </>

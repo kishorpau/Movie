@@ -8,6 +8,7 @@ import {
   CarouselPrevious,
 } from "../../../../@/components/ui/carousel";
 import MovieCard from "../../../main/MovieCard";
+import { Loader } from "lucide-react";
 
 const Popular = () => {
   const [endpoint, setEndpoint] = useState("movie"); // State to track endpoint
@@ -21,6 +22,9 @@ const Popular = () => {
     setEndpoint(newEndpoint);
   };
 
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <>
       <div className="h-full w-full">
@@ -28,18 +32,27 @@ const Popular = () => {
           {/* Button to switch to 'day' endpoint */}
           <button
             onClick={() => handleEndpointChange("movie")}
-            className={`${
-              endpoint === "movie" ? "bg-blue-500" : "bg-gray-300"
-            } text-white px-4 py-2 rounded-md`}
+            style={{
+              backgroundColor: endpoint === "movie" ? "#e11d48" : "gray",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "10px",
+              transition: "all 0.5s ease-in-out",
+              transform: endpoint === "movie" ? "scale(1.1)" : "scale(1)",
+            }}
           >
             Movie
           </button>
-          {/* Button to switch to 'week' endpoint */}
           <button
             onClick={() => handleEndpointChange("tv")}
-            className={`${
-              endpoint === "tv" ? "bg-blue-500" : "bg-gray-300"
-            } text-white px-4 py-2 rounded-md`}
+            style={{
+              backgroundColor: endpoint === "tv" ? "#e11d48" : "gray",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "10px",
+              transition: "all 0.5s ease-in-out",
+              transform: endpoint === "tv" ? "scale(1.1)" : "scale(1)",
+            }}
           >
             Tv
           </button>
@@ -49,22 +62,23 @@ const Popular = () => {
           opts={{ align: "center" }}
           className="w-full max-w-full relative"
         >
+          <h1 className="text-2xl font-semibold pb-6 pl-4 ">Popular</h1>
           <CarouselContent>
-            {actualdata.map((movie) => (
-              <CarouselItem
-                key={movie.id}
-                className="md:basis-1/2 lg:basis-1/3"
-              >
+            {actualdata.map((movie, index) => (
+              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                 <MovieCard
                   image={`${ImageUrl}${movie.poster_path || ""}`}
                   title={movie.title || ""}
+                  id={movie.id}
+                  media={movie.title ? "movie" : "tv"}
                 />
               </CarouselItem>
             ))}
           </CarouselContent>
 
-          <CarouselPrevious className="relative top-1/2 transform -translate-y-1/2 left-0" />
-          <CarouselNext className="relative top-1/2 transform -translate-y-1/2 right-0" />
+          <CarouselPrevious className="absolute top-1/2 transform -translate-y-1/2 left-0" />
+          {/* CarouselNext button positioned on the far right */}
+          <CarouselNext className="absolute top-1/2 transform -translate-y-1/2 right-0" />
         </Carousel>
       </div>
     </>

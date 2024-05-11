@@ -4,15 +4,13 @@ import { fetchDataFromApi } from "../../../@/lib/api";
 import { setSearchResults } from "../../store/MovieSlice";
 
 import { useNavigate } from "react-router-dom";
-//@ts-ignore
 
-const HomeSearch = ({ onClose }) => {
+const HomeSearch = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // useNavigate hook
   const [term, setTerm] = useState("");
-  //@ts-ignore
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (term.trim() === "") return;
 
