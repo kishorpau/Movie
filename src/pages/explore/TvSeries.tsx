@@ -95,7 +95,7 @@ const TvSeries = () => {
       <div
         className="absolute w-full h-[810px] top-0  bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../../last.jpg)`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/Movie/last.jpg)`,
         }}
       >
         <Navbar />
@@ -131,12 +131,15 @@ const TvSeries = () => {
                 <div className="col-span-full text-center">Loading...</div>
               )}
               {!loading && movies.length > 0 && (
-                <button
-                  onClick={fetchMoreData}
-                  className="col-span-full text-center py-2 px-4 w-[8%] bg-blue-500 text-white rounded-md"
-                >
-                  Load More
-                </button>
+                <div className=" w-full ">
+                  <button
+                    onClick={fetchMoreData}
+                    className="col-span-full text-center py-2 px-4 relative left-[200%] bg-rose-500 text-white rounded-md "
+                    style={{ borderRadius: 10 }}
+                  >
+                    Load More
+                  </button>
+                </div>
               )}
               <button
                 onClick={scrollToTop}

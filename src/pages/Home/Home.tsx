@@ -36,7 +36,7 @@ export const Home = () => {
             <HomeSearch />
           </div>
         </div>
-        <div>
+        <div className="bg-gradient-to-r from-black/30 to-black/80 relative top-[-8%]">
           <Trending />
           <Popular />
           <TopRated />

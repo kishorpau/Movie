@@ -36,11 +36,11 @@ const Details: React.FC = () => {
     //@ts-expect-error i can't put type assertion here
     bgImage: data?.backdrop_path
       ? `${ImageUrl}${(data as { backdrop_path?: string }).backdrop_path}`
-      : "../../poster.jpg",
+      : "/Movie/poster.jpg",
     //@ts-expect-error i can't put type assertion here
     posterImage: data?.poster_path
       ? `${ImageUrl}${(data as { poster_path?: string }).poster_path}`
-      : "../../Designer.jpeg",
+      : "/Movie/Designer.jpeg",
     genres: (data as { genres?: { name: string }[] }).genres || [],
     tagline: (data as { tagline?: string }).tagline || "",
     rating: (data as { vote_average?: number }).vote_average || "",

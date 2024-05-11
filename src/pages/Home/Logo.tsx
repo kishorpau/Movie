@@ -24,7 +24,7 @@ const Logo = ({ isOpen, onClose }: SheetProps) => {
         </button>
         <div className="text-white py-4 px-6">
           <div className="flex">
-            <img src="../../file.png" alt="image" height={60} width={70} />
+            <img src="/Movie/file.png" alt="image" height={60} width={70} />
             <p className="text-2xl font-sans pt-6 px-4 text-rose-500">
               Welcome
             </p>

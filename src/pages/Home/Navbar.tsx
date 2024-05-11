@@ -35,7 +35,7 @@ const Navbar = () => {
     <nav className="w-full h-[8vh] bg-black/30 flex p-5 text-white items-center justify-between sticky top-0 z-10">
       <div>
         <Link to="/Movie">
-          <img src="/file.png" alt="image" height={60} width={70} />
+          <img src="/Movie/file.png" alt="image" height={60} width={70} />
         </Link>
       </div>
       <div className="flex space-x-14">
