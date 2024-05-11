@@ -29,7 +29,7 @@ const HomeSearch = () => {
       dispatch(setSearchResults(searchResults));
 
       // Redirect to search results page
-      navigate("/search-results");
+      navigate("/Movie/search-results");
     } catch (err) {
       console.error("Error fetching search results:", err);
     }

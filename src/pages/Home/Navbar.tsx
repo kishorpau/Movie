@@ -19,12 +19,12 @@ const Navbar = () => {
 
   const handleMovie = () => {
     dispatch(setSearchResults(null));
-    navigate("/explore/movies"); // Use navigate instead of history.push
+    navigate("/Movie/explore/movies"); // Use navigate instead of history.push
   };
 
   const handleTv = () => {
     dispatch(setSearchResults(null));
-    navigate("/explore/Tv"); // Use navigate instead of history.push
+    navigate("/Movie/explore/Tv"); // Use navigate instead of history.push
   };
 
   const toggleSheet = () => {
@@ -34,8 +34,8 @@ const Navbar = () => {
   return (
     <nav className="w-full h-[8vh] bg-black/30 flex p-5 text-white items-center justify-between sticky top-0 z-10">
       <div>
-        <Link to="/">
-          <img src="../../file.png" alt="image" height={60} width={70} />
+        <Link to="/Movie">
+          <img src="/file.png" alt="image" height={60} width={70} />
         </Link>
       </div>
       <div className="flex space-x-14">

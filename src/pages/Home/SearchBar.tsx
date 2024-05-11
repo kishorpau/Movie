@@ -27,7 +27,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onClose }) => {
       );
       const searchResults = { tv: tvResults };
       dispatch(setSearchResults(searchResults));
-      navigate("/search-results");
+      navigate("/Movie/search-results");
       setTerm(""); // Clear input after submission
       setError(null); // Clear any previous errors
     } catch (err) {

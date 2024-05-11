@@ -22,7 +22,7 @@ const TvCard: React.FC<MovieProps> = ({
   name,
 }) => {
   return (
-    <Link to={`/${media}/${id}`} className="no-underline">
+    <Link to={`/Movie/${media}/${id}`} className="no-underline">
       <div
         className="flex flex-col items-center hover:shadow-2xl transition-shadow duration-300 overflow-hidden h-[475px] bg-gradient-to-tl from-black/50 to-black/80"
         style={{ borderRadius: "5%" }}

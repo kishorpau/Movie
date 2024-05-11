@@ -30,16 +30,16 @@ const Logo = ({ isOpen, onClose }: SheetProps) => {
             </p>
           </div>
           <div className="text-2xl cursor-pointer px-5 py-4 hover:animate-bounce hover:text-rose-500">
-            <Link to="/">Home</Link>
+            <Link to="/Movie">Home</Link>
           </div>
           <div className="text-2xl cursor-pointer px-5 py-4 hover:animate-bounce hover:text-rose-500">
-            <Link to="/About">About</Link>
+            <Link to="/Movie/About">About</Link>
           </div>
           <div className="text-2xl cursor-pointer px-5 py-4 hover:animate-bounce hover:text-rose-500">
-            <Link to="/explore/movies">Movies</Link>
+            <Link to="/Movie/explore/movies">Movies</Link>
           </div>
           <div className="text-2xl cursor-pointer px-5 py-4 hover:animate-bounce hover:text-rose-500">
-            <Link to="/explore/tv">Tv Shows</Link>
+            <Link to="/Movie/explore/tv">Tv Shows</Link>
           </div>
         </div>
       </div>

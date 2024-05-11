@@ -9,7 +9,7 @@ interface MovieProps {
 
 const MovieCard = ({ image, title, media, id }: MovieProps) => {
   return (
-    <Link to={`/${media}/${id}`} className="no-underline">
+    <Link to={`/Movie/${media}/${id}`} className="no-underline">
       <div className="w-[400px] h-[525px] ">
         <img
           src={image}

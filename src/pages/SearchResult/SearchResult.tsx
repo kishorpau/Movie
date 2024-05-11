@@ -17,7 +17,7 @@ const SearchResultsComponent = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/");
+    navigate("/Movie");
   };
 
   if (!searchResults) {
